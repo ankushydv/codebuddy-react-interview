@@ -23,22 +23,21 @@ const Home = () => {
       </div>
       <Container>
         <Form>
-          <h1>hs</h1>
           <MultiStepForm activeStep={active}>
             <Step label="one">
-              <MultiForm />
+              <MultiForm active={active} />
             </Step>
             <Step label="Two">
-              <p>Two</p>
+              <MultiForm active={active} />
             </Step>
             <Step label="Three">
-              <p>Three</p>
+              <MultiForm active={active} />
             </Step>
           </MultiStepForm>
           {active !== 1 && <Button onClick={() => setActive(active - 1)}>Previous</Button>}
           {active !== 3 && (
             <Button onClick={() => setActive(active + 1)} style={{ float: 'right' }}>
-              Next
+              Save and Next
             </Button>
           )}
         </Form>
