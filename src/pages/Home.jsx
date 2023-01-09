@@ -1,25 +1,46 @@
+import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
+import { MultiStepForm, Step } from 'react-multi-form';
+import MultiForm from './Form';
 
 const Home = () => {
   const navigate = useNavigate();
+  const [active, setActive] = useState(1);
+
+  // custom styles
+  // const prevStyle = { background: '#33c3f0' };
+  // const nextStyle = { background: '#33c3f0' };
 
   const onSubmit = () => navigate('/posts');
 
   return (
     <main>
       <div className="bg-light p-5 mb-5">
-        <h1>React + Bootstrap v4</h1>
-        <p>React template with Bootstrap version v4</p>
-        <p>
-          <Button variant="primary">Learn more</Button>
-        </p>
+        <Button onClick={onSubmit}>Goto Posts</Button>
       </div>
       <Container>
         <Form>
-          <Button onClick={onSubmit}>Goto Posts</Button>
+          <h1>hs</h1>
+          <MultiStepForm activeStep={active}>
+            <Step label="one">
+              <MultiForm />
+            </Step>
+            <Step label="Two">
+              <p>Two</p>
+            </Step>
+            <Step label="Three">
+              <p>Three</p>
+            </Step>
+          </MultiStepForm>
+          {active !== 1 && <Button onClick={() => setActive(active - 1)}>Previous</Button>}
+          {active !== 3 && (
+            <Button onClick={() => setActive(active + 1)} style={{ float: 'right' }}>
+              Next
+            </Button>
+          )}
         </Form>
       </Container>
     </main>
