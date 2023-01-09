@@ -14,6 +14,17 @@ const validate = values => {
   //   } else if (values.lastName.length > 20) {
   //     errors.lastName = 'Must be 20 characters or less';
   //   }
+  if (!values.firstName) {
+    errors.firstName = 'Required';
+  } else if (!/^[a-zA-Z]{2,50}$/.test(values.firstName)) {
+    errors.firstName = 'Invalid user name please use only alphabate';
+  }
+
+  if (!values.address) {
+    errors.address = 'Required';
+  } else if (values.address.length > 10) {
+    errors.address = 'Invalid address please enter proper address';
+  }
 
   if (!values.password) {
     errors.password = 'Required';
