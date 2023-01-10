@@ -1,5 +1,6 @@
 import { useFormik } from 'formik';
 import Button from 'react-bootstrap/Button';
+import axios from 'axios';
 
 const validate = values => {
   const errors = {};
@@ -57,6 +58,14 @@ const MultiForm = ({ active }) => {
     validate,
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));
+      axios
+        .post('https://codebuddy.review/submit', values)
+        .then(response => {
+          console.log(response);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
   });
 
@@ -142,13 +151,23 @@ const MultiForm = ({ active }) => {
       {active === 3 && (
         <div className="flex">
           <label htmlFor="email">Country Code</label>
-          <input
+          {/* <input
             id="countryCode"
             name="countryCode"
             type="text"
             onChange={formik.handleChange}
             value={formik.values.countryCode}
-          />
+          /> */}
+          <select
+            name="color"
+            value={formik.values.color}
+            onChange={formik.handleChange}
+            style={{ display: 'block' }}
+          >
+            <option value="" label="Select a country code" />
+            <option value="+91" label="+91" />
+            <option value="+1" label="+1" />
+          </select>
         </div>
       )}
       {formik.errors.countryCode && active === 3 ? (
