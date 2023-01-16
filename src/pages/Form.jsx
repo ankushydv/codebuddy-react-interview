@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { FormContext } from '../context/FormContext';
@@ -33,6 +33,8 @@ import { FormContext } from '../context/FormContext';
 // };
 
 const MultiForm = ({ active }) => {
+  const [emailErr, setEmailErr] = useState(undefined);
+  console.log('emailErr', emailErr);
   const {
     email,
     setEmail,
@@ -50,35 +52,42 @@ const MultiForm = ({ active }) => {
     setPhoneNumber,
     acceptTermsAndCondition,
     setAcceptTermsAndCondition,
+    disable,
+    setDisable,
   } = useContext(FormContext);
-  console.log('activeTab', active);
-  // const formik = useFormik({
-  //   initialValues: {
-  //     email: '',
-  //     password: '',
-  //     firstName: '',
-  //     lastName: '',
-  //     address: '',
-  //     countryCode: '',
-  //     phoneNumber: '',
-  //     acceptTermsAndCondition: '',
-  //   },
-  //   validate,
-  //   onSubmit: values => {
-  //     alert(JSON.stringify(values, null, 2));
-  //     axios
-  //       .post('https://codebuddy.review/submit', values)
-  //       .then(response => {
-  //         console.log(response);
-  //       })
-  //       .catch(err => {
-  //         console.log(err);
-  //       });
-  //   },
-  // });
+
+  // const validate = () => {
+  //   const errors = {};
+  //   if (!firstName) {
+  //     errors.firstName = 'Required';
+  //   } else if (!/^[a-zA-Z]{2,50}$/.test(firstName)) {
+  //     errors.firstName = 'Invalid user name please use only alphabate';
+  //   }
+
+  //   if (!address) {
+  //     errors.address = 'Required';
+  //   } else if (address.length > 10) {
+  //     errors.address = 'Invalid address please enter proper address';
+  //   }
+
+  //   if (!password) {
+  //     errors.password = 'Required';
+  //   } else if (!/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/.test(password)) {
+  //     errors.password = 'Invalid password';
+  //   }
+
+  //   if (!email) {
+  //     errors.email = 'Required';
+  //   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
+  //     errors.email = 'Invalid email address';
+  //   }
+
+  //   return errors;
+  // };
+
+  // console.log('valu', validate.errors);a
 
   const handleSaveForm = () => {
-    console.log('handleSaveForm', email, firstName, acceptTermsAndCondition);
     const values = {
       email,
       password,
@@ -108,12 +117,28 @@ const MultiForm = ({ active }) => {
             id="email"
             name="email"
             type="email"
-            onChange={e => setEmail(e.target.value)}
+            onChange={e => {
+              setEmail(e.target.value);
+              if (!e.target.value.length) {
+                setEmailErr('Required');
+                return setDisable(true);
+              }
+
+              if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(e.target.value)) {
+                setEmailErr('Invalid email address');
+                return setDisable(true);
+              }
+
+              setDisable(false);
+
+              return setEmailErr(null);
+            }}
             value={email}
           />
         </div>
       )}
 
+      {emailErr && <div style={{ color: 'red' }}>{emailErr}</div>}
       {/* {formik.errors.email && active === 1 ? (
         <div style={{ color: 'red' }}>{formik.errors.email}</div>
       ) : null} */}
@@ -234,7 +259,7 @@ const MultiForm = ({ active }) => {
         <div style={{ color: 'red' }}>{formik.errors.acceptTermsAndCondition}</div>
       ) : null} */}
       <div className="flex-center">
-        <Button type="button" className="mt-2" onClick={handleSaveForm}>
+        <Button type="button" disabled={disable} className="mt-2" onClick={handleSaveForm}>
           Save
         </Button>
       </div>

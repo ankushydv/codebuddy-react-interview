@@ -11,6 +11,7 @@ const FormProvider = ({ children }) => {
   const [countryCode, setCountryCode] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [acceptTermsAndCondition, setAcceptTermsAndCondition] = useState(false);
+  const [disable, setDisable] = useState(false);
 
   const values = {
     email,
@@ -29,6 +30,8 @@ const FormProvider = ({ children }) => {
     setPhoneNumber,
     acceptTermsAndCondition,
     setAcceptTermsAndCondition,
+    disable,
+    setDisable,
   };
 
   console.log('fristNma', email, firstName);
