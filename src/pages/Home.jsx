@@ -23,7 +23,7 @@ const Home = () => {
   return (
     <main>
       <div className="bg-light p-5 mb-5">
-        <Button onClick={onSubmit}>Goto Posts</Button>
+        <Button onClick={onSubmit}>Go to Posts</Button>
       </div>
       <Container>
         <Form>

@@ -15,8 +15,7 @@ const PostProvider = ({ children }) => {
     axios
       .get('https://codebuddy.review/posts')
       .then(response => {
-        const res = response.json();
-        setData(res);
+        setData(response);
       })
       .catch(err => console.log(err));
   }, []);
