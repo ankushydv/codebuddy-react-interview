@@ -37,6 +37,8 @@ const MultiForm = ({ active }) => {
   const [passwordErr, setPasswordErr] = useState(undefined);
   const [firstNameErr, setFirstNameErr] = useState(undefined);
   const [lastNameErr, setLastNameErr] = useState(undefined);
+  const [addressErr, setAddressErr] = useState(undefined);
+  const [countryCodeErr, setCountryCodeErr] = useState(undefined);
 
   const {
     email,
@@ -240,11 +242,27 @@ const MultiForm = ({ active }) => {
             id="address"
             name="address"
             type="address"
-            onChange={e => setAddress(e.target.value)}
+            onChange={e => {
+              setAddress(e.target.value);
+              if (!e.target.value) {
+                setAddressErr('Required');
+                return setDisable(true);
+              }
+
+              if (e.target.value.length > 10) {
+                setAddressErr('Address length must be more than 10');
+                return setDisable(true);
+              }
+
+              setDisable(false);
+
+              return setAddressErr(undefined);
+            }}
             value={address}
           />
         </div>
       )}
+      {addressErr && <div style={{ color: 'red' }}>{addressErr}</div>}
       {/* {formik.errors.address && active === 2 ? (
         <div style={{ color: 'red' }}>{formik.errors.address}</div>
       ) : null} */}
@@ -261,7 +279,16 @@ const MultiForm = ({ active }) => {
           <select
             name="Country Code"
             value={countryCode}
-            onChange={e => setCountryCode(e.target.value)}
+            onChange={e => {
+              setCountryCode(e.target.value);
+              if (!e.target.value) {
+                setCountryCodeErr('Required');
+                return setDisable(true);
+              }
+
+              setDisable(false);
+              return setCountryCodeErr(undefined);
+            }}
             style={{ display: 'block' }}
           >
             <option value="" label="Select a country code" />
@@ -270,6 +297,9 @@ const MultiForm = ({ active }) => {
           </select>
         </div>
       )}
+
+      {countryCodeErr && <div style={{ color: 'red' }}>{countryCodeErr}</div>}
+
       {/* {formik.errors.countryCode && active === 3 ? (
         <div style={{ color: 'red' }}>{formik.errors.countryCode}</div>
       ) : null} */}
