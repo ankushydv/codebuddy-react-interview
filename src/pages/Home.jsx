@@ -1,4 +1,5 @@
 import { useState } from 'react';
+// import { Formik, Field } from 'formik';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -26,6 +27,25 @@ const Home = () => {
           <MultiStepForm activeStep={active}>
             <Step label="one">
               <MultiForm active={active} />
+              {/* <Formik
+                initialValues={{ firstName: '', lastName: '' }}
+                onSubmit={values => {
+                  // handle form submission here
+                  console.log('values', values);
+                }}
+              >
+                {({ errors, touched }) => (
+                  <Form>
+                    <label htmlFor="firstName">First Name</label>
+                    <Field name="firstName" type="text" />
+                    {errors.firstName && touched.firstName ? <div>{errors.firstName}</div> : null}
+                    <label htmlFor="lastName">Last Name</label>
+                    <Field name="lastName" type="text" />
+                    {errors.lastName && touched.lastName ? <div>{errors.lastName}</div> : null}
+                    <button type="submit">Submit</button>
+                  </Form>
+                )}
+              </Formik> */}
             </Step>
             <Step label="Two">
               <MultiForm active={active} />
