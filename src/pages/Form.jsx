@@ -34,7 +34,10 @@ import { FormContext } from '../context/FormContext';
 
 const MultiForm = ({ active }) => {
   const [emailErr, setEmailErr] = useState(undefined);
-  console.log('emailErr', emailErr);
+  const [passwordErr, setPasswordErr] = useState(undefined);
+  const [firstNameErr, setFirstNameErr] = useState(undefined);
+  const [lastNameErr, setLastNameErr] = useState(undefined);
+
   const {
     email,
     setEmail,
@@ -131,7 +134,7 @@ const MultiForm = ({ active }) => {
 
               setDisable(false);
 
-              return setEmailErr(null);
+              return setEmailErr(undefined);
             }}
             value={email}
           />
@@ -150,11 +153,27 @@ const MultiForm = ({ active }) => {
             id="password"
             name="password"
             type="password"
-            onChange={e => setPassword(e.target.value)}
+            onChange={e => {
+              setPassword(e.target.value);
+              if (!e.target.value) {
+                setPasswordErr('Required');
+                return setDisable(true);
+              }
+
+              if (!/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/.test(password)) {
+                setPasswordErr('Invalid Password');
+                return setDisable(true);
+              }
+
+              setDisable(false);
+              return setPasswordErr(undefined);
+            }}
             value={password}
           />
         </div>
       )}
+      {passwordErr && <div style={{ color: 'red' }}>{passwordErr}</div>}
+
       {/* {formik.errors.password && active === 1 ? (
         <div style={{ color: 'red' }}>{formik.errors.password}</div>
       ) : null} */}
@@ -165,11 +184,27 @@ const MultiForm = ({ active }) => {
             id="firstName"
             name="firstName"
             type="firstName"
-            onChange={e => setFirstName(e.target.value)}
+            onChange={e => {
+              setFirstName(e.target.value);
+              if (!e.target.value) {
+                setFirstNameErr('Required');
+                return setDisable(true);
+              }
+
+              if (!/^[a-zA-Z]{2,50}$/.test(e.target.value)) {
+                setFirstNameErr('Invalid Name');
+                return setDisable(true);
+              }
+
+              setDisable(false);
+              return setFirstNameErr(undefined);
+            }}
             value={firstName}
           />
         </div>
       )}
+      {firstNameErr && <div style={{ color: 'red' }}>{firstNameErr}</div>}
+
       {/* {formik.errors.firstName && active === 2 ? (
         <div style={{ color: 'red' }}>{formik.errors.firstName}</div>
       ) : null} */}
@@ -180,11 +215,21 @@ const MultiForm = ({ active }) => {
             id="lastName"
             name="lastName"
             type="lastName"
-            onChange={e => setLastName(e.target.value)}
+            onChange={e => {
+              setLastName(e.target.value);
+              if (/^[a-zA-Z]+$/.test(e.target.value)) {
+                setLastNameErr('Only alphabate is allow in lastName');
+                return setDisable(true);
+              }
+
+              setDisable(false);
+              return setLastNameErr(undefined);
+            }}
             value={lastName}
           />
         </div>
       )}
+      {lastNameErr && <div style={{ color: 'red' }}>{lastNameErr}</div>}
       {/* {formik.errors.lastName && active === 2 ? (
         <div style={{ color: 'red' }}>{formik.errors.lastName}</div>
       ) : null} */}

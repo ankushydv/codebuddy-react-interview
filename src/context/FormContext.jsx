@@ -34,8 +34,6 @@ const FormProvider = ({ children }) => {
     setDisable,
   };
 
-  console.log('fristNma', email, firstName);
-
   return <FormContext.Provider value={values}>{children}</FormContext.Provider>;
 };
 
