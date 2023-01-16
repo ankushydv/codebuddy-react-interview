@@ -39,6 +39,8 @@ const MultiForm = ({ active }) => {
   const [lastNameErr, setLastNameErr] = useState(undefined);
   const [addressErr, setAddressErr] = useState(undefined);
   const [countryCodeErr, setCountryCodeErr] = useState(undefined);
+  const [phoneNumberErr, setPhoneNumberErr] = useState(undefined);
+  // const [checkBoxErr, setCheckBoxErr] = useState(undefined);
 
   const {
     email,
@@ -60,7 +62,7 @@ const MultiForm = ({ active }) => {
     disable,
     setDisable,
   } = useContext(FormContext);
-
+  console.log('disable', disable);
   // const validate = () => {
   //   const errors = {};
   //   if (!firstName) {
@@ -219,7 +221,7 @@ const MultiForm = ({ active }) => {
             type="lastName"
             onChange={e => {
               setLastName(e.target.value);
-              if (/^[a-zA-Z]+$/.test(e.target.value)) {
+              if (!/^[a-zA-Z]+$/.test(e.target.value) && e.target.value.length) {
                 setLastNameErr('Only alphabate is allow in lastName');
                 return setDisable(true);
               }
@@ -310,11 +312,28 @@ const MultiForm = ({ active }) => {
             id="phoneNumber"
             name="phoneNumber"
             type="text"
-            onChange={e => setPhoneNumber(e.target.value)}
+            onChange={e => {
+              setPhoneNumber(e.target.value);
+              if (!/^[0-9]{10,}$/.test(e.target.value)) {
+                setPhoneNumberErr('Please Enter Valid Phone Number');
+                return setDisable(true);
+              }
+
+              if (!e.target.value) {
+                setPhoneNumberErr('Required');
+                return setDisable(true);
+              }
+
+              setDisable(false);
+              return setPhoneNumberErr(undefined);
+            }}
             value={phoneNumber}
           />
         </div>
       )}
+
+      {phoneNumberErr && <div style={{ color: 'red' }}>{phoneNumberErr}</div>}
+
       {/* {formik.errors.phoneNumber && active === 3 ? (
         <div style={{ color: 'red' }}>{formik.errors.phoneNumber}</div>
       ) : null} */}
@@ -325,11 +344,14 @@ const MultiForm = ({ active }) => {
             id="acceptTermsAndCondition"
             name="acceptTermsAndCondition"
             type="checkbox"
-            onChange={() => setAcceptTermsAndCondition(!acceptTermsAndCondition)}
+            onChange={e => {
+              setAcceptTermsAndCondition(e.target.value);
+            }}
             value={acceptTermsAndCondition}
           />
         </div>
       )}
+      {/* {checkBoxErr && <div style={{ color: 'red' }}>{checkBoxErr}</div>} */}
       {/* {formik.errors.acceptTermsAndCondition && active === 3 ? (
         <div style={{ color: 'red' }}>{formik.errors.acceptTermsAndCondition}</div>
       ) : null} */}
