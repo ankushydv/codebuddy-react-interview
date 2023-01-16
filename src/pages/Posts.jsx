@@ -9,8 +9,38 @@ const Posts = () => {
 
   return (
     <Container>
-      <h2>List of Posts</h2>
-      <Row>{posts && Object.keys(posts).map(post => <Col>{posts[post].firstName}</Col>)}</Row>
+      <h2 className="text-center mb-2">List of Posts</h2>
+      <Container>
+        {posts &&
+          Object.keys(posts).map(post => (
+            <Row>
+              {' '}
+              <Col className="md-4">
+                {' '}
+                <Row>
+                  {' '}
+                  <p>{posts[post].id} </p>{' '}
+                </Row>{' '}
+                <Row>
+                  {' '}
+                  <p>
+                    {posts[post].firstName} {posts[post].lastName}{' '}
+                  </p>{' '}
+                </Row>{' '}
+                <Row>
+                  {' '}
+                  <p>{posts[post].writeup}</p>{' '}
+                </Row>{' '}
+              </Col>
+              <Col className="md-4">
+                <img src={posts[post].image} alt="img" width="100px" height="100px" />
+              </Col>
+              <Col className="md-4">
+                <img src={posts[post].avatar} alt="img2" width="100px" height="100px" />
+              </Col>
+            </Row>
+          ))}
+      </Container>
     </Container>
   );
 };
