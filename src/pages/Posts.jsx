@@ -8,10 +8,8 @@ const Posts = () => {
   const [width, setWidth] = useState(window.innerWidth);
   const { posts } = useContext(PostContext);
   const isLargerScreen = width > 1008;
-  const isMediaScreen = width < 1007 && width < 642;
-  const isSmallScreen = width > 641;
+  const isMediaScreen = width < 1007 && width > 642;
 
-  console.log('isLargerScreen', isLargerScreen, isMediaScreen, isSmallScreen);
   useEffect(() => {
     const handleWindowResize = () => {
       setWidth(window.innerWidth);
@@ -28,7 +26,6 @@ const Posts = () => {
     : isMediaScreen
     ? posts.slice(0, 2)
     : posts.slice(0, 1);
-  console.log('postsForLargeScreen', postsForLarge);
   return (
     <Container>
       <h2 className="text-center mb-2">List of Posts</h2>
