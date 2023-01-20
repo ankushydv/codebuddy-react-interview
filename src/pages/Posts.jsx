@@ -33,7 +33,6 @@ const Posts = () => {
         {posts &&
           Object.keys(postsForLarge).map(post => (
             <Row>
-              {' '}
               <Col className="md-4">
                 {' '}
                 <Row>
